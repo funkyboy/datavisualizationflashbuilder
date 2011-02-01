@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:NavigatorContent xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					xmlns:s="library://ns.adobe.com/flex/spark" 
+					xmlns:mx="library://ns.adobe.com/flex/mx" 
+					creationComplete="init()">
+	
+	<fx:Script>
+		<![CDATA[
+			import air.net.URLMonitor;
+			import cache.FlickrCache;
+			import mx.collections.ArrayCollection;
+			import mx.rpc.events.*;
+			
+			[Bindable]
+			private var res:ArrayCollection = new ArrayCollection();
+			
+			private var monitor:URLMonitor;
+			
+			private function init():void {
+				
+				monitor = new URLMonitor(new URLRequest("http://www.adobe.com"));
+				monitor.start();
+				
+			}
+			
+			
+			private function search():void {
+				
+				res.removeAll();
+				
+				if (monitor.available) {
+					
+					currentState = "Loading";
+					var params:Object = new Object();
+					params.format = 'rss_200';
+					params.tags = inputKey.text;
+					flickrSearchService.send(params);
+					FlickrCache.instance().currentKey = inputKey.text;
+					
+				} else {
+					
+					res = new ArrayCollection(FlickrCache.instance().getItems(inputKey.text));
+					currentState = "Normal";
+				}
+				
+			}
+			
+			private function onResult(event:ResultEvent):void {
+				currentState = "Normal";
+				res = event.result.rss.channel.item as ArrayCollection;
+				
+			}
+			
+			private function onError(e:FaultEvent):void {
+				
+				trace("error in loading");
+				
+			}
+			
+		]]>
+	</fx:Script>
+	<s:states>
+		<s:State name="Normal"/>
+		<s:State name="Loading"/>
+	</s:states>
+	
+	<fx:Declarations>
+		
+		<s:HTTPService 
+			id="flickrSearchService"
+			url="http://api.flickr.com/services/feeds/photos_public.gne"
+			result="onResult(event)" 
+			fault="onError(event)"
+			/>
+		
+	</fx:Declarations>
+	
+	<s:Label text="Flickr Search" fontSize="36" fontWeight="bold" y="20" x="174" horizontalCenter="0" />
+	
+	<s:List itemRenderer="renderers.FlickrPictureRenderer" 
+			dataProvider="{res}" 
+			width="780" height="400" y="107" x.Loading="19" horizontalCenter="0">
+		
+		<s:layout>
+			<s:TileLayout/>
+		</s:layout>
+		
+	</s:List>
+	
+	<s:HGroup y="70" width="100%" horizontalAlign="center">
+		
+		<s:TextInput 
+			id="inputKey"
+			enter="search()" 
+			height="25"/>
+		
+		<s:Button 
+			label="Search" 
+			click="search()" 
+			enabled="{inputKey.text != ''}" 
+			height="25"/>
+		
+		<s:Label 
+				text="Loading" 
+				 fontSize="16" 
+				 includeIn="Loading"/>
+	</s:HGroup>
+	
+	
+	
+	
+</s:NavigatorContent>
