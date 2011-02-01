@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<model xmlns="http://ns.adobe.com/Fiber/1.0">
+  <annotation name="ActionScriptGeneration">
+    <item name="FullyQualifyReferences">true</item>
+  </annotation>
+  <service name="Most_viewed">
+    <annotation name="ActionScriptGeneration">
+      <item name="ServiceType">HTTPMultiService</item>
+      <item name="Package">services.most_viewed</item>
+    </annotation>
+    <annotation name="ServiceTypeGroup">
+      <item name="ServiceBackendType">XML</item>
+    </annotation>
+    <annotation name="ServiceConfig">
+      <item name="DEFAULT_ENTITY_PACKAGE">valueObjects</item>
+      <item name="LINKED_FILE"></item>
+    </annotation>
+    <function name="getData" return-type="Entry[]">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="ActionScriptGeneration">
+        <item name="SerializationFilter">com.adobe.serializers.xml.XMLSerializationFilter</item>
+        <item name="method">GET</item>
+        <item name="url">http://gdata.youtube.com/feeds/api/standardfeeds/most_viewed</item>
+      </annotation>
+      <annotation name="url group">
+        <item name="displayUrl">http://gdata.youtube.com/feeds/api/standardfeeds/most_viewed</item>
+        <item name="completeURL">http://gdata.youtube.com/feeds/api/standardfeeds/most_viewed</item>
+        <item name="isUrl">true</item>
+      </annotation>
+      <annotation name="Properties">
+        <item name="xPath">/::entry</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="returnType">opaque</item>
+      </annotation>
+    </function>
+  </service>
+  <entity name="Media_content">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">Media_content</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">Most_viewed</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="url" type="string" required="true"/>
+    <property name="type" type="string" required="true"/>
+    <property name="medium" type="string" required="true"/>
+    <property name="isDefault" type="string" required="true"/>
+    <property name="expression" type="string" required="true"/>
+    <property name="duration" type="string" required="true"/>
+    <property name="format" type="string" required="true"/>
+  </entity>
+  <entity name="Entry">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">Entry</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">Most_viewed</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="id" type="string" required="true"/>
+    <property name="published" type="string" required="true"/>
+    <property name="updated" type="string" required="true"/>
+    <property name="app_control" type="App_control" required="true"/>
+    <property name="category" type="Category[]" required="true"/>
+    <property name="title" type="Title" required="true"/>
+    <property name="content" type="Content" required="true"/>
+    <property name="link" type="Link[]" required="true"/>
+    <property name="author" type="Author" required="true"/>
+    <property name="gd_comments" type="Gd_comments" required="true"/>
+    <property name="media_group" type="Media_group" required="true"/>
+    <property name="gd_rating" type="Gd_rating" required="true"/>
+    <property name="yt_statistics" type="Yt_statistics" required="true"/>
+  </entity>
+  <entity name="Yt_statistics">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">Yt_statistics</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">Most_viewed</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="favoriteCount" type="string" required="true"/>
+    <property name="viewCount" type="string" required="true"/>
+  </entity>
+  <entity name="Media_title">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">Media_title</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">Most_viewed</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="type" type="string" required="true"/>
+    <property name="title" type="string" required="true"/>
+  </entity>
+  <entity name="Media_thumbnail">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">Media_thumbnail</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">Most_viewed</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="url" type="string" required="true"/>
+    <property name="height" type="string" required="true"/>
+    <property name="width" type="string" required="true"/>
+    <property name="time" type="string" required="true"/>
+  </entity>
+  <entity name="Author">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">Author</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">Most_viewed</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="name" type="string" required="true"/>
+    <property name="uri" type="string" required="true"/>
+  </entity>
+  <entity name="Media_restriction">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">Media_restriction</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">Most_viewed</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="type" type="string" required="true"/>
+    <property name="relationship" type="string" required="true"/>
+    <property name="restriction" type="string" required="true"/>
+  </entity>
+  <entity name="Gd_comments">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">Gd_comments</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">Most_viewed</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="gd_feedLink" type="Gd_feedLink" required="true"/>
+  </entity>
+  <entity name="Gd_rating">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">Gd_rating</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">Most_viewed</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="average" type="string" required="true"/>
+    <property name="max" type="string" required="true"/>
+    <property name="min" type="string" required="true"/>
+    <property name="numRaters" type="string" required="true"/>
+    <property name="rel" type="string" required="true"/>
+  </entity>
+  <entity name="Title">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">Title</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">Most_viewed</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="type" type="string" required="true"/>
+    <property name="title" type="string" required="true"/>
+  </entity>
+  <entity name="Media_category">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">Media_category</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">Most_viewed</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="label" type="string" required="true"/>
+    <property name="scheme" type="string" required="true"/>
+    <property name="category" type="string" required="true"/>
+  </entity>
+  <entity name="Category">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">Category</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">Most_viewed</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="scheme" type="string" required="true"/>
+    <property name="term" type="string" required="true"/>
+  </entity>
+  <entity name="Link">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">Link</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">Most_viewed</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="rel" type="string" required="true"/>
+    <property name="type" type="string" required="true"/>
+    <property name="href" type="string" required="true"/>
+  </entity>
+  <entity name="Yt_duration">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">Yt_duration</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">Most_viewed</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="seconds" type="string" required="true"/>
+  </entity>
+  <entity name="Media_player">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">Media_player</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">Most_viewed</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="url" type="string" required="true"/>
+  </entity>
+  <entity name="Media_description">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">Media_description</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">Most_viewed</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="type" type="string" required="true"/>
+    <property name="description" type="string" required="true"/>
+  </entity>
+  <entity name="App_control">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">App_control</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">Most_viewed</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="yt_state" type="Yt_state" required="true"/>
+  </entity>
+  <entity name="Gd_feedLink">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">Gd_feedLink</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">Most_viewed</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="href" type="string" required="true"/>
+    <property name="countHint" type="string" required="true"/>
+  </entity>
+  <entity name="Media_group">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">Media_group</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">Most_viewed</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="media_category" type="Media_category" required="true"/>
+    <property name="media_content" type="Media_content" required="true"/>
+    <property name="media_description" type="Media_description" required="true"/>
+    <property name="media_keywords" type="string" required="true"/>
+    <property name="media_player" type="Media_player" required="true"/>
+    <property name="media_restriction" type="Media_restriction" required="true"/>
+    <property name="media_thumbnail" type="Media_thumbnail[]" required="true"/>
+    <property name="media_title" type="Media_title" required="true"/>
+    <property name="yt_duration" type="Yt_duration" required="true"/>
+  </entity>
+  <entity name="Content">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">Content</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">Most_viewed</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="type" type="string" required="true"/>
+    <property name="content" type="string" required="true"/>
+  </entity>
+  <entity name="Yt_state">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">Yt_state</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">Most_viewed</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="name" type="string" required="true"/>
+    <property name="reasonCode" type="string" required="true"/>
+    <property name="state" type="string" required="true"/>
+  </entity>
+</model>
