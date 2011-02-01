@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+
+        Data Visualization with Flash Builder: Designing Ria and AIR Applications with Remote Data Services
+        Author: Cesare Rocchi
+        Site: http://www.datavisualizationflashbuilder.com/
+
+        Copyright (c) 2011, studiomagnolia.com - Cesare Rocchi
+        All rights reserved.
+
+        Redistribution and use in source and binary forms, with or without modification, 
+        are permitted provided that the following conditions are met:
+
+        - Redistributions of source code must retain the above copyright notice, this list 
+                of conditions and the following disclaimer.
+        - Redistributions in binary form must reproduce the above copyright notice, this list 
+                of conditions and the following disclaimer in the documentation and/or other 
+                materials provided with the distribution.
+        - Neither the name of studiomagnolia.com nor the names of its contributors may 
+                be used to endorse or promote products derived from this software without specific 
+                prior written permission.
+
+        THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
+        AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
+        IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE 
+        ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE 
+        LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
+        DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
+        SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
+        CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, 
+        OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
+        OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
+
+-->
+
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx" 
+			   creationComplete="init()" 
+			   currentState="Normal" width="960" 
+			   height="850" xmlns:most_viewed="services.most_viewed.*">
+	
+	<s:states>
+		<s:State name="Normal"/>
+		<s:State name="Loading"/>
+		<s:State name="Error"/>
+	</s:states>
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			
+			import valueObjects.Entry;
+			
+			[Bindable]
+			private var statsArray:ArrayCollection = new ArrayCollection();
+			
+			protected function init():void {
+				getDataResult.token = most_viewed.getData();
+				currentState = "Loading";
+			}
+			
+			private function onItemClick():void {
+				
+				var player:Object = videoDisplay.content as Object;
+				
+				if (player)
+					player.stopVideo();
+				
+				var googleID:String = videoList.selectedItem.id as String;
+				var arr:Array = googleID.split('/');
+				
+				var videoID:String = arr[arr.length-1];
+				var u:String = "http://www.youtube.com/v/"+videoID+"&version=3";
+				videoDisplay.source = u;
+				
+				buildChartData();
+				
+			}
+			
+			private function buildChartData():void {
+				
+				statsArray.removeAll();
+				var entry:Entry = videoList.selectedItem as Entry;
+				var vCount:Object = {viewCount:entry.yt_statistics.viewCount, name:"Views"};
+				var fCount:Object = {favCount: entry.yt_statistics.favoriteCount, name:"Favorites"};
+				var cCount:Object = {commentCount: entry.gd_comments.gd_feedLink.countHint, name:"Comments"};
+				statsArray.addItem(vCount);
+				statsArray.addItem(fCount);
+				statsArray.addItem(cCount);
+				
+			}
+			
+			private function getLabelField(item:Object):String{
+				return item.media_group.media_title.title;
+			}
+			
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<s:CallResponder id="getDataResult"/>
+		<most_viewed:Most_viewed 
+			id="most_viewed" 
+			fault="currentState = 'Error'"
+			result="currentState = 'Normal'"
+			showBusyCursor="true"/>
+	</fx:Declarations>
+	
+	<s:List id="videoList" click="onItemClick()" 
+			labelFunction="getLabelField" 
+			width="300" height="580"
+			x="10" y="10">
+
+		<s:dataProvider>
+			<s:AsyncListView list="{getDataResult.lastResult}"/>
+		</s:dataProvider>
+		
+	</s:List>
+	
+	<mx:SWFLoader 
+		id="videoDisplay" 
+		 x="320" y="10"/>
+	
+	<mx:ColumnChart 
+		visible="{videoList.selectedItem != null}" 
+		dataProvider="{statsArray}" 
+		showDataTips="true" 
+		x="339" y="430">
+		
+		<mx:horizontalAxis>
+			<mx:CategoryAxis categoryField="name"/>
+		</mx:horizontalAxis>
+		
+		<mx:series>
+			<mx:ColumnSeries yField="viewCount"/>
+			<mx:ColumnSeries yField="favCount"/>
+			<mx:ColumnSeries yField="commentCount"/>
+		</mx:series>
+		
+	</mx:ColumnChart>
+	
+	<s:Label 
+		x="10" y="618" 
+		text="Loading..." 
+		includeIn="Error,Loading" 
+		text.Error="Error in loading video list" 
+		color.Error="#FF0000"/>
+	
+</s:Application>
