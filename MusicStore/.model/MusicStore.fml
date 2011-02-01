@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<model xmlns="http://ns.adobe.com/Fiber/1.0">
+  <annotation name="ActionScriptGeneration">
+    <item name="FullyQualifyReferences">true</item>
+  </annotation>
+  <service name="GetSongsService">
+    <annotation name="ActionScriptGeneration">
+      <item name="ServiceType">HTTPMultiService</item>
+      <item name="Package">services.getsongsservice</item>
+    </annotation>
+    <annotation name="ServiceTypeGroup">
+      <item name="ServiceBackendType">HTTPService</item>
+    </annotation>
+    <annotation name="ServiceConfig">
+      <item name="DEFAULT_ENTITY_PACKAGE">itunesObjects</item>
+      <item name="LINKED_FILE"></item>
+    </annotation>
+    <function name="GetSongsList" arguments="term:string,country:string" return-type="Song">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="ActionScriptGeneration">
+        <item name="SerializationFilter">com.adobe.serializers.json.JSONSerializationFilter</item>
+        <item name="method">GET</item>
+        <item name="url">http://ax.itunes.apple.com/WebObjects/MZStoreServices.woa/wa/wsSearch</item>
+      </annotation>
+      <annotation name="url group">
+        <item name="completeURL">http://ax.itunes.apple.com/WebObjects/MZStoreServices.woa/wa/wsSearch?term=led zeppelin&amp;country=us</item>
+      </annotation>
+      <annotation name="ValidProperties">
+        <item name="propertySpecifier">results,resultCount</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="inputParamNames">term,country</item>
+        <item name="inputParams">string,string</item>
+        <item name="returnType">opaque</item>
+      </annotation>
+    </function>
+  </service>
+  <entity name="Song">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">Song</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">GetSongsService</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="GetSongsList">
+      <item name="propertySpecifier">results,resultCount</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">itunesObjects</item>
+    </annotation>
+    <property name="results" type="Results[]" required="true"/>
+    <property name="resultCount" type="integer" required="true"/>
+  </entity>
+  <entity name="Results">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">Results</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">GetSongsService</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">itunesObjects</item>
+    </annotation>
+    <property name="collectionExplicitness" type="string" required="true"/>
+    <property name="trackCensoredName" type="string" required="true"/>
+    <property name="artworkUrl60" type="string" required="true"/>
+    <property name="collectionId" type="integer" required="true"/>
+    <property name="discCount" type="integer" required="true"/>
+    <property name="trackTimeMillis" type="integer" required="true"/>
+    <property name="collectionViewUrl" type="string" required="true"/>
+    <property name="wrapperType" type="string" required="true"/>
+    <property name="trackName" type="string" required="true"/>
+    <property name="kind" type="string" required="true"/>
+    <property name="currency" type="string" required="true"/>
+    <property name="releaseDate" type="string" required="true"/>
+    <property name="artistId" type="integer" required="true"/>
+    <property name="contentAdvisoryRating" type="opaque" required="true"/>
+    <property name="collectionCensoredName" type="string" required="true"/>
+    <property name="collectionName" type="string" required="true"/>
+    <property name="trackCount" type="integer" required="true"/>
+    <property name="trackId" type="integer" required="true"/>
+    <property name="artworkUrl30" type="string" required="true"/>
+    <property name="primaryGenreName" type="string" required="true"/>
+    <property name="trackNumber" type="integer" required="true"/>
+    <property name="discNumber" type="integer" required="true"/>
+    <property name="country" type="string" required="true"/>
+    <property name="previewUrl" type="string" required="true"/>
+    <property name="trackExplicitness" type="string" required="true"/>
+    <property name="artistViewUrl" type="string" required="true"/>
+    <property name="trackPrice" type="double" required="true" default="0"/>
+    <property name="artistName" type="string" required="true"/>
+    <property name="artworkUrl100" type="string" required="true"/>
+    <property name="trackViewUrl" type="string" required="true"/>
+    <property name="collectionPrice" type="double" required="true" default="0"/>
+  </entity>
+</model>
