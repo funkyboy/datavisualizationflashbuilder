@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:NavigatorContent xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					xmlns:s="library://ns.adobe.com/flex/spark" 
+					xmlns:mx="library://ns.adobe.com/flex/mx" 
+					currentState="startup" 
+					xmlns:twittersearchservice="services.twittersearchservice.*" 
+					xmlns:maps="com.google.maps.*"
+					>
+	
+	<s:states>
+		<s:State name="startup"/>
+		<s:State name="searching"/>
+		<s:State name="error"/>
+	</s:states>
+	
+	<fx:Declarations>
+		
+		<twittersearchservice:TwitterSearchService 
+			id="twitterSearch" 
+			fault="currentState = 'error'" 
+			result="onTwitterResult(event)"/>
+		
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import com.google.maps.*;
+			import com.google.maps.controls.*;
+			import com.google.maps.overlays.Marker;
+			import com.google.maps.overlays.MarkerOptions;
+			import com.google.maps.services.*;
+			
+			import events.TweetGeocodeEvent;
+			
+			import mx.collections.ArrayCollection;
+			import mx.rpc.events.ResultEvent;
+			
+			import tweets.Entry;
+			
+			private var lat:Number = 40.736072;
+			private var longit:Number = -73.992062;
+			private var rad:Number = 25;
+			private var zoomLevel:Number = 12;
+			
+			private function doSearch():void {
+				
+				currentState = "searching";
+				var geoLocation:String = lat.toString()+","+longit.toString()+","+rad.toString()+"mi";
+				twitterSearch.doGeoSearch(geoLocation, keywordInput.text);
+				
+			}
+			
+			private function onTwitterResult(event:ResultEvent):void {
+				
+				currentState = "";
+				var twitterResult:ArrayCollection = event.result.entry as ArrayCollection;
+				for each (var o:Entry in twitterResult) {
+					o.addEventListener(TweetGeocodeEvent.GEOCODE_SUCCESS, onTweetGeocoded);
+					o.doGeocode();
+				}
+				
+			}
+			
+			private function onTweetGeocoded (e:TweetGeocodeEvent):void {
+				
+				var m:Placemark = e.response.placemarks[0];
+				var options:MarkerOptions = new MarkerOptions({hasShadow: true, icon: new TwitterIcon()});
+				var marker:Marker = new Marker(m.point, options);
+				map.addOverlay(marker);
+				
+				marker.addEventListener(MapMouseEvent.CLICK, function (event:MapMouseEvent):void {
+					
+					marker.openInfoWindow(new InfoWindowOptions({
+						title: "By "+e.target.author.name, 
+						content: e.target.title
+					}));
+					
+				});
+				
+			}
+			
+			private function onMapReady(event:MapEvent):void {
+				
+				map.setCenter(new LatLng(lat,longit), zoomLevel, MapType.NORMAL_MAP_TYPE);
+				map.addControl(new NavigationControl());
+				//map.addControl(new MapTypeControl());
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:Label x="174" top="20" text="Tweets on a Map" fontSize="36" fontWeight="bold" horizontalCenter="0"/>
+	
+	<mx:Form enabled.searching="false" y="70" 
+			 width="100%">
+		
+		<mx:FormItem 
+			direction="horizontal">
+			
+			<s:TextInput 
+				id="keywordInput" height="25"
+				/>
+			
+			<s:Button enabled="{keywordInput.text != ''}"
+					  label="Search"
+					  click="doSearch()" 
+					  height="25"
+					  />
+			
+			<s:Label 
+				text="Searching..." 
+				text.error="Error in searching"
+				paddingTop="7" 
+				includeIn="searching,error"/>
+			
+		</mx:FormItem>
+	</mx:Form>
+	
+	<maps:Map 
+		url="http://code.google.com/apis/maps/"
+		key="INSERT_YOUR_KEY"
+		id="map"
+		mapevent_mapready="onMapReady(event)" 
+		width="100%" height="600" y="134"/>
+	
+</s:NavigatorContent>

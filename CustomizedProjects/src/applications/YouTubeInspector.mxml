@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:NavigatorContent xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" 
+		 xmlns:most_viewed="services.most_viewed.*" show="init()"
+		 >
+	
+
+	<s:states>
+		<s:State name="Normal"/>
+		<s:State name="Loading"/>
+		<s:State name="Error"/>
+	</s:states>
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.core.INavigatorContent;
+			
+			import valueObjects.Entry;
+			
+			[Bindable]
+			private var statsArray:ArrayCollection = new ArrayCollection();
+			
+			protected function init():void {
+				getDataResult.token = most_viewed.getData();
+				currentState = "Loading";
+			}
+			
+			private function onItemClick():void {
+				
+				var player:Object = videoDisplay.content as Object;
+				
+				if (player)
+					player.stopVideo();
+				
+				var googleID:String = videoList.selectedItem.id as String;
+				var arr:Array = googleID.split('/');
+				
+				var videoID:String = arr[arr.length-1];
+				var u:String = "http://www.youtube.com/v/"+videoID+"&version=3";
+				videoDisplay.source = u;
+				
+				buildChartData();
+				
+			}
+			
+			private function buildChartData():void {
+				
+				statsArray.removeAll();
+				var entry:Entry = videoList.selectedItem as Entry;
+				var vCount:Object = {viewCount:entry.yt_statistics.viewCount, name:"Views"};
+				var fCount:Object = {favCount: entry.yt_statistics.favoriteCount, name:"Favorites"};
+				var cCount:Object = {commentCount: entry.gd_comments.gd_feedLink.countHint, name:"Comments"};
+				statsArray.addItem(vCount);
+				statsArray.addItem(fCount);
+				statsArray.addItem(cCount);
+				
+			}
+			
+			private function getLabelField(item:Object):String{
+				return item.media_group.media_title.title;
+			}
+			
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<s:CallResponder id="getDataResult"/>
+		<most_viewed:Most_viewed 
+			id="most_viewed" 
+			fault="currentState = 'Error'"
+			result="currentState = 'Normal'"
+			showBusyCursor="true"/>
+	</fx:Declarations>
+	
+	<s:Label x="174" y="20" text="YouTube" fontSize="36" fontWeight="bold" horizontalCenter="0"/>
+	
+	<s:List id="videoList" click="onItemClick()" 
+			labelFunction="getLabelField" 
+			width="300" height="580"
+			x="10" y="70">
+		
+		<s:dataProvider>
+			<s:AsyncListView list="{getDataResult.lastResult}"/>
+		</s:dataProvider>
+		
+	</s:List>
+	
+	<mx:SWFLoader 
+		id="videoDisplay" 
+		x="320" y="70"/>
+	
+	<mx:ColumnChart 
+		visible="{videoList.selectedItem != null}" 
+		dataProvider="{statsArray}" 
+		showDataTips="true" 
+		x="339"  width="285" height="296" y="470">
+		
+		<mx:horizontalAxis>
+			<mx:CategoryAxis categoryField="name"/>
+		</mx:horizontalAxis>
+		
+		<mx:series>
+			<mx:ColumnSeries yField="viewCount"/>
+			<mx:ColumnSeries yField="favCount"/>
+			<mx:ColumnSeries yField="commentCount"/>
+		</mx:series>
+		
+	</mx:ColumnChart>
+	
+	<s:Label 
+		x="10" y="50" 
+		text="Loading..." 
+		includeIn="Error,Loading" 
+		text.Error="Error in loading video list" 
+		color.Error="#FF0000"/>
+	
+</s:NavigatorContent>

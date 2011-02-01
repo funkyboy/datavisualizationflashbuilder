@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<fxpProperties abbreviated="false" authoringTool="Flex Builder" compiles="true" parentProject="36f0031e-1e09-46b2-9aad-300241b87e6e" projectUUID="36f0031e-1e09-46b2-9aad-300241b87e6e" sdkVersion="4.1.0" uuid="ea4b0ec4-5be4-482b-812f-f1d476608d20" version="4">
+  <projects/>
+  <src>
+    <linked isMain="false" location="assets" path="assets" position="0" uuid="ea4b0ec4-5be4-482b-812f-f1d476608d20"/>
+  </src>
+  <swc>
+    <linked location="sdkPlaceHolder" path="sdkPlaceHolder" position="0" uuid="ea4b0ec4-5be4-482b-812f-f1d476608d20"/>
+    <linked location="/libs" path="\libs" position="1" uuid="ea4b0ec4-5be4-482b-812f-f1d476608d20"/>
+    <linked location="${DCD_FIBER_LOCATION}/fiber.swc" path="${DCD_FIBER_LOCATION}/fiber.swc" position="2" uuid="ea4b0ec4-5be4-482b-812f-f1d476608d20"/>
+    <linked location="${DCD_FIBER_LOCALE_LOCATION}/fiber_rb.swc" path="${DCD_FIBER_LOCALE_LOCATION}/fiber_rb.swc" position="3" uuid="ea4b0ec4-5be4-482b-812f-f1d476608d20"/>
+    <linked location="${DCD_LIB_LOCATION}" path="${DCD_LIB_LOCATION}" position="4" uuid="ea4b0ec4-5be4-482b-812f-f1d476608d20"/>
+    <linked location="${DCD_LOCALE_LOCATION}" path="${DCD_LOCALE_LOCATION}" position="5" uuid="ea4b0ec4-5be4-482b-812f-f1d476608d20"/>
+    <linked location="${DCD_FIBER_LOCATION}/playerfds.swc" path="${DCD_FIBER_LOCATION}/playerfds.swc" position="6" uuid="ea4b0ec4-5be4-482b-812f-f1d476608d20"/>
+    <linked location="${PROJECT_FRAMEWORKS}/projects/utilities/src" path="${PROJECT_FRAMEWORKS}/projects/utilities/src" position="7" uuid="ea4b0ec4-5be4-482b-812f-f1d476608d20"/>
+  </swc>
+  <misc/>
+  <theme/>
+</fxpProperties>
